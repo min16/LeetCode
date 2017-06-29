@@ -21,10 +21,10 @@ public class ReverseWordsInAString {
 
     public String reverseWords(String s) {
         char[] words = s.toCharArray();
-        int n = words.length - 1;
+        int n = words.length;
 
         // 1. reverse whole words
-        reverse(words, 0, n);
+        reverse(words, 0, n - 1);
         // 2. reverse each word
         reverseWord(words, n);
         // 3. clean space
@@ -48,13 +48,39 @@ public class ReverseWordsInAString {
         }
     }
 
+//    public String cleanSpaces(char[] a, int n) {
+//        int i = 0, j = 0;
+//        while (j < n) {
+//            while (j < n && a[j] == ' ') j++;
+//            while (j < n && a[j] != ' ') a[i++] = a[j++];
+//            while (j < n && a[j] == ' ') j++;
+//            if (j < n) a[i++] = ' ';
+//        }
+//        return String.valueOf(a).substring(0, i);
+//    }
+
     public String cleanSpaces(char[] a, int n) {
         int index = 0;
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < n; i++) {
             if (i > 0 && a[i] == ' ' && a[i - 1] == ' ') continue;
             a[index++] = a[i];
         }
-        return String.valueOf(a);
+        return new String(a).substring(0, index).trim();
+    }
+
+    public String reverseWordsSB(String s) {
+        StringBuilder sb = new StringBuilder();
+        char[] words = s.toCharArray();
+        int start;
+        int end = words.length - 1;
+        while (end >= 0) {
+            while (end >= 0 && words[end] == ' ') end--;
+            start = end;
+            while (start >= 0 && words[start] != ' ') start--;
+            sb.append(new String(words, start + 1, end - start)).append(" ");
+            end = start;
+        }
+        return sb.toString().trim();
     }
 
     @Test
