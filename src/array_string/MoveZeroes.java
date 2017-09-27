@@ -7,31 +7,30 @@ import org.junit.Test;
  * Problem 283
  */
 public class MoveZeroes {
-    public int[] moveZeroes(int[] nums) {
-        int left = 0, right = 1;
-        if (nums.length == 1) return nums;
-        while(left < nums.length -1 && right < nums.length) {
-            if (nums[left] == 0) {
-                while (nums[right] == 0) {
-                    right++;
-                    if (right == nums.length) return nums;
-                }
-                swap(left, right, nums);
-            } else {
-                left++;
-                right++;
-            }
-        }
+    public int[] moveZeroesSwap(int[] nums) {
+       for (int i = 0, currentIndex = 0; i < nums.length; i ++) {
+           if (nums[i] != 0) {
+               nums[currentIndex ++] = nums[i];
+               nums[i] = 0;
+           }
+       }
         return nums;
     }
-    private void swap(int i, int j, int[] array) {
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+
+    public int[] moveZeroesInsertion(int[] nums) {
+        int index = 0;
+        for (int num : nums) {
+            if (num != 0) nums[index++] = num;
+        }
+        while (index < nums.length) {
+            nums[index++] = 0;
+        }
+        return nums;
     }
 
     @Test
     public void test() {
-        Assert.assertArrayEquals(moveZeroes(new int[]{0, 1, 0, 3, 12}), new int[]{1, 3, 12, 0, 0});
+        Assert.assertArrayEquals(new int[]{1, 3, 12, 0, 0}, moveZeroesSwap(new int[]{0, 1, 0, 3, 12}));
+        Assert.assertArrayEquals(new int[]{1, 3, 12, 0, 0}, moveZeroesInsertion(new int[]{0, 1, 0, 3, 12}));
     }
 }
