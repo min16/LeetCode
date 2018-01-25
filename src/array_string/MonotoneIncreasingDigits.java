@@ -4,6 +4,32 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class MonotoneIncreasingDigits {
+
+    public int simpleMonontoneIncreasingDigits(int N) {
+        char[] n = String.valueOf(N).toCharArray();
+        int mark = n.length;
+
+        for (int i = n.length - 1; i >0; i --) {
+            if (n[i] < n[i - 1]) {
+                mark = i;
+                n[i - 1] --;
+            }
+        }
+
+        for (int i = mark; i < n.length; i ++) {
+            n[i] = '9';
+        }
+
+        return Integer.parseInt(new String(n));
+    }
+
+    @Test
+    public void testSimple() {
+        assertEquals(8999, simpleMonontoneIncreasingDigits(9989));
+        assertEquals(299, simpleMonontoneIncreasingDigits(332));
+        assertEquals(1289, simpleMonontoneIncreasingDigits(1297));
+    }
+
     public int monotoneIncreasingDigits(int N) {
         int num = N;
         int endIndexOfIncreasingDigit = getEndIndexOfIncreasingDigit(num);
